@@ -26,6 +26,7 @@ class JokesTask extends AsyncTask<Void, Void, String> {
         this.progressBar = pb;
     }
 
+
     @Override
     protected String doInBackground(Void... voids) {
         if (myApi == null) {  // Only do this once
@@ -57,16 +58,22 @@ class JokesTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar.setVisibility(View.VISIBLE);
+        if (progressBar != null){
+            progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
 
     @Override
     protected void onPostExecute(String s) {
-        Intent i = new Intent(context, JokeActivity.class);
-        i.putExtra(Constants.JOKE, s);
-        context.startActivity(i);
-        progressBar.setVisibility(View.GONE);
+        if (context != null){
+            Intent i = new Intent(context, JokeActivity.class);
+            i.putExtra(Constants.JOKE, s);
+            context.startActivity(i);
+            if (progressBar != null){
+                progressBar.setVisibility(View.GONE);
+            }
+        }
     }
 }
 

@@ -32,9 +32,12 @@ class JokesTask extends AsyncTask<Void, Void, String> {
     public JokesTask(Context context, ProgressBar pb){
         this.context = context;
         this.progressBar = pb;
-        mInterstitialAd = new InterstitialAd(context);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        if (context != null){
+            mInterstitialAd = new InterstitialAd(context);
+            mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        }
+
     }
 
     @Override
@@ -68,13 +71,17 @@ class JokesTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar.setVisibility(View.VISIBLE);
+        if (progressBar != null){
+            progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
 
     @Override
     protected void onPostExecute(final String s) {
-
+        if (context == null){
+            return;
+        }
         if (mInterstitialAd.isLoaded()){
             mInterstitialAd.show();
         }else{

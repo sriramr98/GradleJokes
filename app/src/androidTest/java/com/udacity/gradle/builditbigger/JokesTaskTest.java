@@ -1,28 +1,27 @@
 package com.udacity.gradle.builditbigger;
 
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
-public class JokesTaskTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class JokesTaskTest {
 
-    private static final String TAG = "JokesTaskTest";
-    private String joke;
-
-    public void noEmptyString(){
-        JokesTask task = new JokesTask(getContext(),null);
+    @Test
+    public void jokesTaskTest() throws Exception{
+        JokesTask task = new JokesTask(null,null);
         task.execute();
-        try{
-            joke = task.get();
-            Log.d(TAG,"Retrieved a non empty string "+ joke);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        assertNotNull(joke);
-        assertTrue(joke.length() > 0);
+        String joke = task.get();
+        Assert.assertNotEquals(joke,null);
+        Assert.assertTrue(joke.length() > 0);
     }
+
 }
